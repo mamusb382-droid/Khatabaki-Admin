@@ -1,0 +1,2882 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="বাকি খাতা - আপনার দোকানের ডিজিটাল হিসাব রাখার সেরা অ্যাপ। বাকি, জমা, খরচ সব এক জায়গায়। এখনই ডাউনলোড করুন!">
+    <meta name="keywords" content="বাকি খাতা, দোকানের হিসাব, baki khata, digital ledger, bangla app">
+    <title>বাকি খাতা - দোকানের ডিজিটাল হিসাব</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Tiro+Bangla:ital@0;1&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #0d9488;
+            --primary-dark: #0f766e;
+            --primary-light: #14b8a6;
+            --accent: #f59e0b;
+            --accent-dark: #d97706;
+            --bg: #ffffff;
+            --bg-alt: #f8fafc;
+            --text: #0f172a;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            
+            --gradient-primary: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+            --gradient-hero: linear-gradient(135deg, #0f766e 0%, #0d9488 50%, #14b8a6 100%);
+            --gradient-accent: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+            --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            
+            --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+            --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
+            --shadow-xl: 0 24px 64px rgba(15, 23, 42, 0.16);
+            --shadow-glow: 0 0 60px rgba(13, 148, 136, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* ═══════════════════ Global Notice ═══════════════════ */
+        .global-notice {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 700;
+            z-index: 9999;
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.4);
+            max-width: 90%;
+            text-align: center;
+            animation: slideDown 0.5s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateX(-50%) translateY(-30px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        .global-notice-close {
+            background: rgba(255,255,255,0.3);
+            border: none;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        /* ═══════════════════ Loading State ═══════════════════ */
+        .page-loader {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+            transition: opacity 0.5s;
+        }
+        
+        .page-loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loader-logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: bounce 1s infinite;
+        }
+        
+        .loader-logo svg {
+            width: 50px;
+            height: 50px;
+            fill: var(--primary);
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-15px) scale(1.05); }
+        }
+        
+        .loader-text {
+            color: white;
+            font-size: 20px;
+            font-weight: 800;
+            font-family: 'Tiro Bangla', serif;
+        }
+        
+        .loader-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* ═══════════════════ Maintenance Screen ═══════════════════ */
+        .maintenance-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(13, 148, 136, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 40%),
+                linear-gradient(135deg, #f4f7f6 0%, #ffffff 100%);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .maintenance-screen.active {
+            display: flex;
+        }
+        
+        .maintenance-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient-primary);
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            box-shadow: 0 20px 40px -10px rgba(13, 148, 136, 0.5);
+            animation: bounce 2s infinite;
+        }
+        
+        .maintenance-icon svg {
+            width: 60px;
+            height: 60px;
+            fill: white;
+        }
+        
+        .maintenance-screen h1 {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--primary-dark);
+            font-family: 'Tiro Bangla', serif;
+            margin-bottom: 16px;
+        }
+        
+        .maintenance-screen p {
+            font-size: 17px;
+            color: var(--text-secondary);
+            max-width: 500px;
+            line-height: 1.7;
+            font-weight: 600;
+            background: white;
+            padding: 24px;
+            border-radius: 20px;
+            border: 2px dashed var(--primary);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 24px;
+        }
+        
+        /* ═══════════════════ Navigation ═══════════════════ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        
+        .navbar.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 800;
+            font-size: 22px;
+            font-family: 'Tiro Bangla', serif;
+        }
+        
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+        }
+        
+        .logo-icon svg { width: 28px; height: 28px; }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: color 0.2s;
+            position: relative;
+        }
+        
+        .nav-links a:hover { color: var(--primary); }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+            border-radius: 2px;
+        }
+        
+        .nav-links a:hover::after { transform: scaleX(1); }
+        
+        .nav-cta {
+            background: var(--gradient-primary);
+            color: white !important;
+            padding: 10px 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(13, 148, 136, 0.4);
+        }
+        
+        .nav-cta::after { display: none; }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        .mobile-menu-btn svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--text);
+        }
+        
+        /* ═══════════════════ Hero Section ═══════════════════ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 24px 80px;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(13, 148, 136, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.08) 0%, transparent 40%),
+                linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(13, 148, 136, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 10s ease-in-out infinite;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -200px;
+            left: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 12s ease-in-out infinite reverse;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+        
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            animation: slideInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            border: 1px solid rgba(13, 148, 136, 0.2);
+        }
+        
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+        
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1.5px;
+            color: var(--text);
+        }
+        
+        .hero h1 .highlight {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 19px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.7;
+            max-width: 520px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            font-family: 'Hind Siliguri', sans-serif;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 8px 24px rgba(13, 148, 136, 0.35);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(13, 148, 136, 0.5);
+        }
+        
+        .btn-primary svg { width: 22px; height: 22px; fill: white; }
+        
+        .btn-outline {
+            background: white;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+        
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .btn-outline svg { width: 22px; height: 22px; fill: currentColor; }
+        
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .stat-item h3 {
+            font-size: 32px;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .stat-item p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        /* ═══════════════════ Phone Mockup ═══════════════════ */
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            animation: slideInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .phone-mockup {
+            width: 320px;
+            height: 650px;
+            background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 48px;
+            padding: 12px;
+            box-shadow: 
+                0 40px 80px -20px rgba(15, 23, 42, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            position: relative;
+            transform: rotate(-3deg);
+            transition: transform 0.5s;
+        }
+        
+        .phone-mockup:hover {
+            transform: rotate(0deg) translateY(-10px);
+        }
+        
+        .phone-notch {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 28px;
+            background: #0f172a;
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+        
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #f4f7f6 0%, #ffffff 100%);
+            border-radius: 36px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .mock-header {
+            padding: 40px 20px 16px;
+            background: white;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        
+        .mock-header-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .mock-logo {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 18px;
+        }
+        
+        .mock-shop-name {
+            font-weight: 800;
+            font-size: 15px;
+            color: var(--text);
+            font-family: 'Tiro Bangla', serif;
+        }
+        
+        .mock-shop-cat {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .mock-wallet {
+            background: var(--gradient-hero);
+            margin: 12px 16px;
+            border-radius: 20px;
+            padding: 20px;
+            color: white;
+            box-shadow: 0 8px 24px rgba(13, 148, 136, 0.3);
+        }
+        
+        .mock-wallet-label {
+            font-size: 11px;
+            opacity: 0.9;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .mock-wallet-amount {
+            font-size: 32px;
+            font-weight: 900;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -1.5px;
+            margin-top: 4px;
+        }
+        
+        .mock-wallet-dates {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            opacity: 0.95;
+        }
+        
+        .mock-transactions {
+            padding: 0 16px;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .mock-trans-title {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text);
+            padding: 12px 0 8px;
+            font-family: 'Tiro Bangla', serif;
+        }
+        
+        .mock-trans-item {
+            background: white;
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--primary);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .mock-trans-item.due { border-left-color: var(--accent); }
+        .mock-trans-item.payment { border-left-color: #10b981; }
+        
+        .mock-trans-name {
+            font-weight: 700;
+            font-size: 13px;
+        }
+        
+        .mock-trans-desc {
+            font-size: 10px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .mock-trans-amount {
+            font-weight: 800;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .mock-trans-amount.due { color: #e11d48; }
+        .mock-trans-amount.payment { color: #059669; }
+        
+        .mock-nav {
+            background: white;
+            padding: 12px;
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid var(--border);
+        }
+        
+        .mock-nav-item {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--bg-alt);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .mock-nav-item.active {
+            background: var(--primary);
+        }
+        
+        .mock-nav-item svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--text-secondary);
+        }
+        
+        .mock-nav-item.active svg { fill: white; }
+        
+        .float-card {
+            position: absolute;
+            background: white;
+            padding: 14px 18px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: floatCard 4s ease-in-out infinite;
+            z-index: 2;
+        }
+        
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .float-card-1 {
+            top: 15%;
+            left: -20%;
+            animation-delay: 0s;
+        }
+        
+        .float-card-2 {
+            bottom: 20%;
+            right: -15%;
+            animation-delay: 2s;
+        }
+        
+        .float-card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .float-card-icon svg { width: 20px; height: 20px; fill: white; }
+        
+        .float-card-icon.success { background: linear-gradient(135deg, #10b981, #059669); }
+        .float-card-icon.warning { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        
+        .float-card-text h4 {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--text);
+        }
+        
+        .float-card-text p {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        /* ═══════════════════ Sections ═══════════════════ */
+        .section {
+            padding: 100px 24px;
+            position: relative;
+        }
+        
+        .section-alt {
+            background: var(--bg-alt);
+        }
+        
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+        
+        .section-badge {
+            display: inline-block;
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--primary);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+        
+        .section-header h2 {
+            font-size: 44px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+            font-family: 'Tiro Bangla', serif;
+        }
+        
+        .section-header p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 620px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
+            border-color: transparent;
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(13, 148, 136, 0.25);
+            font-size: 28px;
+        }
+        
+        .feature-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: white;
+        }
+        
+        .feature-icon.gold {
+            background: var(--gradient-accent);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.25);
+        }
+        
+        .feature-card h3 {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            font-family: 'Tiro Bangla', serif;
+        }
+        
+        .feature-card p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        /* ═══════════════════ Screenshots ═══════════════════ */
+        .screenshots-wrapper {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 48px;
+        }
+        
+        .screenshot {
+            width: 260px;
+            height: 520px;
+            background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 40px;
+            padding: 10px;
+            box-shadow: var(--shadow-xl);
+            transition: transform 0.4s;
+        }
+        
+        .screenshot:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+        
+        .screenshot-inner {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-alt);
+            border-radius: 32px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        .ss-header {
+            background: var(--gradient-hero);
+            padding: 30px 16px 20px;
+            color: white;
+        }
+        
+        .ss-wallet-label {
+            font-size: 11px;
+            opacity: 0.9;
+            font-weight: 700;
+        }
+        
+        .ss-wallet-amount {
+            font-size: 28px;
+            font-weight: 900;
+            font-family: 'Inter', sans-serif;
+            margin-top: 4px;
+            letter-spacing: -1px;
+        }
+        
+        .ss-content { padding: 16px; }
+        
+        .ss-card {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        
+        .ss-card-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 6px;
+            font-family: 'Tiro Bangla', serif;
+        }
+        
+        .ss-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--border);
+            font-size: 11px;
+        }
+        
+        .ss-row:last-child { border-bottom: none; }
+        
+        .ss-row strong { font-weight: 800; }
+        .ss-red { color: #e11d48; }
+        .ss-green { color: #059669; }
+        
+        .ss-customer-item {
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
+        
+        .ss-cust-name {
+            font-weight: 800;
+            font-size: 12px;
+        }
+        
+        .ss-cust-phone {
+            font-size: 10px;
+            color: var(--text-secondary);
+        }
+        
+        .ss-cust-amount {
+            font-weight: 800;
+            font-size: 13px;
+            color: #e11d48;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .ss-profit-box {
+            background: linear-gradient(135deg, #059669, #10b981);
+            padding: 16px;
+            border-radius: 14px;
+            color: white;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        
+        .ss-profit-label {
+            font-size: 10px;
+            opacity: 0.9;
+            font-weight: 700;
+        }
+        
+        .ss-profit-amount {
+            font-size: 24px;
+            font-weight: 900;
+            font-family: 'Inter', sans-serif;
+            margin-top: 4px;
+        }
+        
+        /* ═══════════════════ Download Section ═══════════════════ */
+        .download-section {
+            padding: 100px 24px;
+            background: var(--gradient-hero);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .download-section::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .download-section::after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        .download-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .download-icon {
+            width: 90px;
+            height: 90px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
+            animation: bounce 2s infinite;
+        }
+        
+        .download-icon svg {
+            width: 48px;
+            height: 48px;
+            fill: white;
+        }
+        
+        .download-container h2 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+            font-family: 'Tiro Bangla', serif;
+        }
+        
+        .download-container > p {
+            font-size: 19px;
+            opacity: 0.95;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .download-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            color: var(--text);
+            padding: 18px 32px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 800;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 16px;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        
+        .download-btn-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .download-btn-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: white;
+        }
+        
+        .download-btn-text {
+            text-align: left;
+        }
+        
+        .download-btn-text small {
+            display: block;
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .download-btn-text strong {
+            display: block;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text);
+        }
+        
+        .download-info {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .download-info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .download-info-item svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+            opacity: 0.9;
+        }
+        
+        /* ═══════════════════ Steps ═══════════════════ */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 32px;
+        }
+        
+        .step-card {
+            text-align: center;
+            padding: 32px 24px;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .step-number {
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 900;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 20px rgba(13, 148, 136, 0.3);
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .step-card h3 {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            font-family: 'Tiro Bangla', serif;
+        }
+        
+        .step-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        /* ═══════════════════ Testimonials ═══════════════════ */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl);
+        }
+        
+        .testimonial-stars {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 16px;
+        }
+        
+        .testimonial-stars svg {
+            width: 20px;
+            height: 20px;
+            fill: #fbbf24;
+        }
+        
+        .testimonial-text {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text);
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 18px;
+            font-family: 'Tiro Bangla', serif;
+        }
+        
+        .testimonial-author h4 {
+            font-size: 15px;
+            font-weight: 800;
+        }
+        
+        .testimonial-author p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        /* ═══════════════════ FAQ ═══════════════════ */
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .faq-item.active {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
+        
+        .faq-question {
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+        
+        .faq-question:hover {
+            color: var(--primary);
+        }
+        
+        .faq-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--bg-alt);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+        
+        .faq-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--text);
+            transition: transform 0.3s;
+        }
+        
+        .faq-item.active .faq-icon {
+            background: var(--primary);
+        }
+        
+        .faq-item.active .faq-icon svg {
+            fill: white;
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 400px;
+        }
+        
+        .faq-answer-content {
+            padding: 0 24px 20px;
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        
+        /* ═══════════════════ Footer ═══════════════════ */
+        .footer {
+            background: var(--gradient-dark);
+            color: white;
+            padding: 60px 24px 30px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-weight: 800;
+            font-size: 22px;
+            font-family: 'Tiro Bangla', serif;
+        }
+        
+        .footer-brand-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .footer-brand-icon svg { width: 28px; height: 28px; }
+        
+        .footer-description {
+            font-size: 14px;
+            opacity: 0.8;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        
+        .footer-socials {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .social-btn:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .social-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+        
+        .footer-column h4 {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            font-family: 'Tiro Bangla', serif;
+        }
+        
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+            word-break: break-word;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-light);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 30px;
+            text-align: center;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        /* ═══════════════════ Modal ═══════════════════ */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-box {
+            background: white;
+            border-radius: 24px;
+            padding: 40px 32px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+        
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 12px 32px rgba(13, 148, 136, 0.35);
+        }
+        
+        .modal-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+        
+        .modal-box h3 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            font-family: 'Tiro Bangla', serif;
+        }
+        
+        .modal-box p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .modal-download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 16px;
+            box-shadow: 0 8px 20px rgba(13, 148, 136, 0.35);
+            transition: all 0.3s;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .modal-download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(13, 148, 136, 0.5);
+        }
+        
+        .modal-download-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+        
+        .modal-close-btn {
+            background: var(--bg-alt);
+            color: var(--text);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+        
+        .modal-close-btn:hover {
+            background: var(--border);
+        }
+        
+        .modal-note {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 16px;
+            background: var(--bg-alt);
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+        
+        /* ═══════════════════ Responsive ═══════════════════ */
+        @media (max-width: 900px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .hero-content { order: 1; }
+            .hero-visual { order: 2; }
+            
+            .hero h1 { font-size: 42px; }
+            .hero p { margin-left: auto; margin-right: auto; }
+            .hero-buttons { justify-content: center; }
+            .hero-stats { justify-content: center; }
+            
+            .float-card-1 { left: -10%; }
+            .float-card-2 { right: -5%; }
+            
+            .section-header h2 { font-size: 34px; }
+            
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 32px;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                gap: 16px;
+                box-shadow: var(--shadow-lg);
+                border-radius: 0 0 16px 16px;
+            }
+            
+            .nav-links.active { display: flex; }
+            .mobile-menu-btn { display: block; }
+            
+            .hero { padding: 100px 20px 60px; }
+            .hero h1 { font-size: 32px; letter-spacing: -0.5px; }
+            .hero p { font-size: 16px; }
+            
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn { width: 100%; justify-content: center; }
+            
+            .hero-stats {
+                gap: 24px;
+                flex-wrap: wrap;
+            }
+            
+            .stat-item h3 { font-size: 26px; }
+            
+            .phone-mockup {
+                width: 260px;
+                height: 540px;
+            }
+            
+            .float-card { display: none; }
+            
+            .section { padding: 60px 20px; }
+            .section-header h2 { font-size: 28px; }
+            .section-header p { font-size: 15px; }
+            
+            .download-section h2 { font-size: 32px; }
+            .download-container > p { font-size: 16px; }
+            
+            .download-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .download-info {
+                gap: 16px;
+                font-size: 13px;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+            
+            .footer-column { text-align: center; }
+            .footer-socials { justify-content: center; }
+            
+            .screenshot { width: 220px; height: 440px; }
+            
+            .modal-box { padding: 32px 24px; }
+            
+            .global-notice {
+                top: 70px;
+                font-size: 13px;
+                padding: 10px 16px;
+            }
+        }
+        
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+        
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Skeleton Loading */
+        .skeleton {
+            background: linear-gradient(90deg, var(--border) 0%, var(--bg-alt) 50%, var(--border) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .skeleton-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            border: 1px solid var(--border);
+        }
+        
+        .skeleton-line {
+            height: 16px;
+            background: linear-gradient(90deg, var(--border) 0%, var(--bg-alt) 50%, var(--border) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+        
+        .skeleton-line.title {
+            height: 24px;
+            width: 70%;
+        }
+        
+        .skeleton-line.short {
+            width: 40%;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════ Loading Screen ═══════════════════ -->
+<div class="page-loader" id="pageLoader">
+    <div class="loader-logo">
+        <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+    </div>
+    <div class="loader-text">বাকি খাতা</div>
+    <div class="loader-spinner"></div>
+</div>
+
+<!-- ═══════════════════ Maintenance Screen ═══════════════════ -->
+<div class="maintenance-screen" id="maintenanceScreen">
+    <div class="maintenance-icon">
+        <svg viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>
+    </div>
+    <h1>🛠️ মেইনটেন্যান্স চলছে</h1>
+    <p id="maintenanceMessage">আমরা বর্তমানে অ্যাপে কিছু নতুন ফিচার যুক্ত করছি। দোকানদারদের সুবিধার্থে কাজটি দ্রুত শেষ করার চেষ্টা করছি।</p>
+    <button class="btn btn-primary" onclick="location.reload()">🔄 রিফ্রেশ করুন</button>
+</div>
+
+<!-- ═══════════════════ Navigation ═══════════════════ -->
+<nav class="navbar" id="navbar">
+    <div class="nav-container">
+        <a href="#" class="logo">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="white">
+                    <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                </svg>
+            </div>
+            <span>বাকি খাতা</span>
+        </a>
+        
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#features">ফিচার</a></li>
+            <li><a href="#screenshots">স্ক্রিনশট</a></li>
+            <li><a href="#how-to-install">ইনস্টল</a></li>
+            <li><a href="#faq">প্রশ্ন</a></li>
+            <li><a href="#download" class="nav-cta">ডাউনলোড</a></li>
+        </ul>
+        
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+        </button>
+    </div>
+</nav>
+
+<!-- ═══════════════════ Hero Section ═══════════════════ -->
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                <span>🇧🇩 বাংলাদেশের #১ বাকি খাতা অ্যাপ</span>
+            </div>
+            
+            <h1 id="heroTitle">
+                আপনার দোকানের<br>
+                <span class="highlight">ডিজিটাল হিসাব</span><br>
+                এখন হাতের মুঠোয়
+            </h1>
+            
+            <p id="heroSubtitle">
+                বাকি, জমা, খরচ, রিপোর্ট — সব এক জায়গায়। আর কাগজের খাতায় হিসাব রাখার ঝামেলা নয়। হাজারো দোকানদার ইতিমধ্যে ব্যবহার করছেন!
+            </p>
+            
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="showDownloadModal()">
+                    <svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+                    এখনই ডাউনলোড করুন
+                </button>
+                <a href="#features" class="btn btn-outline">
+                    <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                    ফিচার দেখুন
+                </a>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <h3 id="stat1Value">১০,০০০+</h3>
+                    <p>সক্রিয় দোকান</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="stat2Value">৫০ লক্ষ+</h3>
+                    <p>লেনদেন</p>
+                </div>
+                <div class="stat-item">
+                    <h3 id="stat3Value">৪.৯ ★</h3>
+                    <p>রেটিং</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-visual">
+            <div class="float-card float-card-1">
+                <div class="float-card-icon success">
+                    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                </div>
+                <div class="float-card-text">
+                    <h4>৳ ৫,০০০ আদায়</h4>
+                    <p>আজকের লেনদেন</p>
+                </div>
+            </div>
+            
+            <div class="float-card float-card-2">
+                <div class="float-card-icon warning">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                </div>
+                <div class="float-card-text">
+                    <h4>৩টি বাকি</h4>
+                    <p>মনে করান</p>
+                </div>
+            </div>
+            
+            <div class="phone-mockup">
+                <div class="phone-notch"></div>
+                <div class="phone-screen">
+                    <div class="mock-header">
+                        <div class="mock-header-top">
+                            <div class="mock-logo">৳</div>
+                            <div>
+                                <div class="mock-shop-name">রহমান স্টোর</div>
+                                <div class="mock-shop-cat">মুদি দোকান</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mock-wallet">
+                        <div class="mock-wallet-label">মোট বাকি</div>
+                        <div class="mock-wallet-amount">৳ ১৫,৫০০</div>
+                        <div class="mock-wallet-dates">
+                            <div>বাংলা: ২৯ অক্টো</div>
+                            <div>ইংরেজি: 29 Oct</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mock-transactions">
+                        <div class="mock-trans-title">আজকের লেনদেন</div>
+                        
+                        <div class="mock-trans-item due">
+                            <div>
+                                <div class="mock-trans-name">রহিম ভাই</div>
+                                <div class="mock-trans-desc">চাল, ডাল</div>
+                            </div>
+                            <div class="mock-trans-amount due">৳ ৫০০</div>
+                        </div>
+                        
+                        <div class="mock-trans-item payment">
+                            <div>
+                                <div class="mock-trans-name">করিম</div>
+                                <div class="mock-trans-desc">পরিশোধ</div>
+                            </div>
+                            <div class="mock-trans-amount payment">৳ ৩০০</div>
+                        </div>
+                        
+                        <div class="mock-trans-item due">
+                            <div>
+                                <div class="mock-trans-name">সালাম</div>
+                                <div class="mock-trans-desc">তেল, চিনি</div>
+                            </div>
+                            <div class="mock-trans-amount due">৳ ৮০০</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mock-nav">
+                        <div class="mock-nav-item active">
+                            <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                        </div>
+                        <div class="mock-nav-item">
+                            <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3z"/></svg>
+                        </div>
+                        <div class="mock-nav-item">
+                            <svg viewBox="0 0 24 24"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg>
+                        </div>
+                        <div class="mock-nav-item">
+                            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ Features Section ═══════════════════ -->
+<section class="section" id="features">
+    <div class="section-container">
+        <div class="section-header fade-up">
+            <div class="section-badge">✨ ফিচারসমূহ</div>
+            <h2>সব ফিচার যা আপনার দরকার</h2>
+            <p>দোকানের সব হিসাব রাখার জন্য যা যা দরকার — সব এক অ্যাপে</p>
+        </div>
+        
+        <div class="features-grid" id="featuresGrid">
+            <!-- Default features (admin থেকে লোড না হলে এগুলো দেখাবে) -->
+            <div class="feature-card fade-up">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                </div>
+                <h3>তাৎক্ষণিক বাকি হিসাব</h3>
+                <p>মুহূর্তেই বাকি দিন এবং কার কত বাকি তা এক নজরে দেখুন। আর কাগজে লেখার ঝামেলা নেই।</p>
+            </div>
+            
+            <div class="feature-card fade-up">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                </div>
+                <h3>জমা ও অগ্রিম</h3>
+                <p>কাস্টমার টাকা দিলে সাথে সাথে জমা করুন। আগে টাকা দিলে অগ্রিম হিসেবেও রাখতে পারবেন।</p>
+            </div>
+            
+            <div class="feature-card fade-up">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+                </div>
+                <h3>মেসেজ ও রিমাইন্ডার</h3>
+                <p>WhatsApp, SMS বা সরাসরি কল — যে কোনোভাবে কাস্টমারকে বাকি মনে করিয়ে দিন।</p>
+            </div>
+            
+            <div class="feature-card fade-up">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8zM2 2v20h20v-2H4V2z"/></svg>
+                </div>
+                <h3>মাসিক রিপোর্ট</h3>
+                <p>কত আয়, কত খরচ, কত লাভ — সব কিছু মাসিক রিপোর্টে বিস্তারিত দেখুন।</p>
+            </div>
+            
+            <div class="feature-card fade-up">
+                <div class="feature-icon gold">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                </div>
+                <h3>রিসিট জেনারেশন</h3>
+                <p>প্রতিটি লেনদেনের ছবি আকারে সুন্দর রিসিট ডাউনলোড করুন এবং কাস্টমারকে পাঠান।</p>
+            </div>
+            
+            <div class="feature-card fade-up">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                </div>
+                <h3>ক্লাউড ব্যাকআপ</h3>
+                <p>আপনার সব ডেটা নিরাপদে ক্লাউডে সেভ থাকে। ফোন হারালেও হিসাব থাকবে অক্ষত।</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ Screenshots Section ═══════════════════ -->
+<section class="section section-alt" id="screenshots">
+    <div class="section-container">
+        <div class="section-header fade-up">
+            <div class="section-badge">📱 স্ক্রিনশট</div>
+            <h2>অ্যাপের ভেতরে কী আছে?</h2>
+            <p>সুন্দর, সহজ এবং ব্যবহারকারী-বান্ধব ইন্টারফেস</p>
+        </div>
+        
+        <div class="screenshots-wrapper">
+            <div class="screenshot fade-up">
+                <div class="screenshot-inner">
+                    <div class="ss-header">
+                        <div class="ss-wallet-label">মোট বাকি</div>
+                        <div class="ss-wallet-amount">৳ ১৫,৫০০</div>
+                    </div>
+                    <div class="ss-content">
+                        <div class="ss-card">
+                            <div class="ss-card-title">আজকের হিসাব</div>
+                            <div class="ss-row"><span>বাকি</span><strong class="ss-red">৳ ২,০০০</strong></div>
+                            <div class="ss-row"><span>আদায়</span><strong class="ss-green">৳ ৩,৫০০</strong></div>
+                        </div>
+                        <div class="ss-card">
+                            <div class="ss-card-title">শীর্ষ বাকিদার</div>
+                            <div class="ss-row"><span>রহিম</span><strong class="ss-red">৳ ৫০০</strong></div>
+                            <div class="ss-row"><span>করিম</span><strong class="ss-red">৳ ৩০০</strong></div>
+                            <div class="ss-row"><span>সালাম</span><strong class="ss-red">৳ ৮০০</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="screenshot fade-up">
+                <div class="screenshot-inner">
+                    <div class="ss-header" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                        <div class="ss-wallet-label">কাস্টমার</div>
+                        <div class="ss-wallet-amount">১৫ জন</div>
+                    </div>
+                    <div class="ss-content">
+                        <div class="ss-customer-item">
+                            <div>
+                                <div class="ss-cust-name">রহিম ভাই</div>
+                                <div class="ss-cust-phone">০১৭১২৩৪৫৬৭৮</div>
+                            </div>
+                            <div class="ss-cust-amount">৳ ৫০০</div>
+                        </div>
+                        <div class="ss-customer-item">
+                            <div>
+                                <div class="ss-cust-name">করিম</div>
+                                <div class="ss-cust-phone">০১৮৯৮৭৬৫৪৩২</div>
+                            </div>
+                            <div class="ss-cust-amount">৳ ৩০০</div>
+                        </div>
+                        <div class="ss-customer-item">
+                            <div>
+                                <div class="ss-cust-name">সালাম</div>
+                                <div class="ss-cust-phone">০১৯১১২২৩৩৪৪</div>
+                            </div>
+                            <div class="ss-cust-amount">৳ ৮০০</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="screenshot fade-up">
+                <div class="screenshot-inner">
+                    <div class="ss-header" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+                        <div class="ss-wallet-label">মাসিক রিপোর্ট</div>
+                        <div class="ss-wallet-amount">অক্টোবর</div>
+                    </div>
+                    <div class="ss-content">
+                        <div class="ss-profit-box">
+                            <div class="ss-profit-label">এই মাসের লাভ</div>
+                            <div class="ss-profit-amount">+ ৳ ১৫,০০০</div>
+                        </div>
+                        <div class="ss-card">
+                            <div class="ss-row"><span>মোট আয়</span><strong class="ss-green">৳ ৪৫,০০০</strong></div>
+                            <div class="ss-row"><span>মোট খরচ</span><strong class="ss-red">৳ ৩০,০০০</strong></div>
+                            <div class="ss-row"><span>বাকি</span><strong style="color: #f59e0b;">৳ ৮,০০০</strong></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ Download Section ═══════════════════ -->
+<section class="download-section" id="download">
+    <div class="download-container">
+        <div class="download-icon">
+            <svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+        </div>
+        
+        <h2>এখনই ডাউনলোড করুন</h2>
+        <p>সম্পূর্ণ ফ্রি! কোনো খরচ নেই, কোনো ঝামেলা নেই। এখনই আপনার দোকানের হিসাব ডিজিটাল করুন।</p>
+        
+        <div class="download-buttons">
+            <a href="https://drive.google.com/uc?export=download&id=1YPDzGeocjy0iJhe50RWk5QNpEdL-nuVk" 
+               download="BakiKhata.apk"
+               target="_blank"
+               class="download-btn"
+               id="mainDownloadBtn"
+               onclick="trackDownload()">
+                <div class="download-btn-icon">
+                    <svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-1.36-.6-2.87-.94-4.47-.94s-3.11.34-4.47.94L5.65 5.67c-.19-.29-.58-.38-.87-.2-.28.18-.37.54-.22.83L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25zm10 0c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/></svg>
+                </div>
+                <div class="download-btn-text">
+                    <small>Android-এর জন্য</small>
+                    <strong>APK ডাউনলোড</strong>
+                </div>
+            </a>
+        </div>
+        
+        <div class="download-info">
+            <div class="download-info-item">
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                <span>সম্পূর্ণ ফ্রি</span>
+            </div>
+            <div class="download-info-item">
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                <span>কোনো বিজ্ঞাপন নেই</span>
+            </div>
+            <div class="download-info-item">
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                <span>নিরাপদ ও ভাইরাস-মুক্ত</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ How to Install ═══════════════════ -->
+<section class="section" id="how-to-install">
+    <div class="section-container">
+        <div class="section-header fade-up">
+            <div class="section-badge">🚀 ইনস্টল গাইড</div>
+            <h2>কীভাবে ইনস্টল করবেন?</h2>
+            <p>মাত্র ৩টি সহজ ধাপে ইনস্টল করুন</p>
+        </div>
+        
+        <div class="steps-grid">
+            <div class="step-card fade-up">
+                <div class="step-number">১</div>
+                <h3>APK ডাউনলোড করুন</h3>
+                <p>উপরের "ডাউনলোড" বাটনে ক্লিক করে APK ফাইলটি ডাউনলোড করুন।</p>
+            </div>
+            
+            <div class="step-card fade-up">
+                <div class="step-number">২</div>
+                <h3>"Unknown Sources" চালু করুন</h3>
+                <p>Settings → Security → "Install from Unknown Sources" চালু করুন।</p>
+            </div>
+            
+            <div class="step-card fade-up">
+                <div class="step-number">৩</div>
+                <h3>ইনস্টল করুন</h3>
+                <p>ডাউনলোড করা ফাইলে ট্যাপ করে "Install" বাটনে ক্লিক করুন। শেষ!</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ Testimonials ═══════════════════ -->
+<section class="section section-alt">
+    <div class="section-container">
+        <div class="section-header fade-up">
+            <div class="section-badge">💬 টেস্টিমোনিয়াল</div>
+            <h2>দোকানদাররা কী বলছেন?</h2>
+            <p>হাজারো সন্তুষ্ট দোকানদার আমাদের বিশ্বাস করেন</p>
+        </div>
+        
+        <div class="testimonials-grid" id="testimonialsGrid">
+            <!-- Default testimonials -->
+            <div class="testimonial-card fade-up">
+                <div class="testimonial-stars">
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                </div>
+                <p class="testimonial-text">"আগে কাগজের খাতায় হিসাব রাখতাম, অনেক সময় ভুলে যেতাম। এখন সব ডিজিটালে, একদম সহজ!"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">র</div>
+                    <div>
+                        <h4>রহমান মিয়া</h4>
+                        <p>মুদি দোকান, ঢাকা</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card fade-up">
+                <div class="testimonial-stars">
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                </div>
+                <p class="testimonial-text">"মেসেজ অপশনটা দারুণ! এক ক্লিকে WhatsApp-এ কাস্টমারকে বাকি মনে করিয়ে দিতে পারি।"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">ক</div>
+                    <div>
+                        <h4>করিম শেখ</h4>
+                        <p>কাপড়ের দোকান, চট্টগ্রাম</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card fade-up">
+                <div class="testimonial-stars">
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                </div>
+                <p class="testimonial-text">"মাসিক রিপোর্ট দেখে বুঝতে পারি ব্যবসা কেমন চলছে। খরচ কমিয়ে লাভ বাড়াতে সাহায্য হয়েছে।"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">স</div>
+                    <div>
+                        <h4>সালমা বেগম</h4>
+                        <p>কসমেটিকস, সিলেট</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ FAQ ═══════════════════ -->
+<section class="section" id="faq">
+    <div class="section-container">
+        <div class="section-header fade-up">
+            <div class="section-badge">❓ প্রশ্ন-উত্তর</div>
+            <h2>সাধারণ প্রশ্নসমূহ</h2>
+            <p>আপনার মনে যে প্রশ্নগুলো আসতে পারে</p>
+        </div>
+        
+        <div class="faq-list" id="faqList">
+            <!-- Default FAQs -->
+            <div class="faq-item fade-up">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>অ্যাপটি কি সম্পূর্ণ ফ্রি?</span>
+                    <div class="faq-icon">
+                        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        হ্যাঁ, অ্যাপটির বেসিক ফিচারসমূহ সম্পূর্ণ ফ্রি। আপনি ৩০ জন পর্যন্ত কাস্টমার যোগ করতে পারবেন। আরও কাস্টমার, সুন্দর রিসিট এবং গ্রাফ রিপোর্টের জন্য প্রিমিয়াম প্ল্যান আছে।
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item fade-up">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>ডেটা কি নিরাপদ?</span>
+                    <div class="faq-icon">
+                        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        হ্যাঁ, আপনার সব ডেটা Firebase Cloud-এ securely এনক্রিপ্টেড থাকে। শুধু আপনি ছাড়া কেউ আপনার ডেটা দেখতে পারবে না।
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item fade-up">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>কীভাবে APK ইনস্টল করব?</span>
+                    <div class="faq-icon">
+                        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        প্রথমে APK ডাউনলোড করুন। তারপর Settings → Security → "Install from Unknown Sources" চালু করুন। এরপর ডাউনলোড করা ফাইলে ট্যাপ করে Install করুন।
+                    </div>
+                </div>
+            </div>
+            
+            <div class="faq-item fade-up">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>ফোন বদলালে ডেটা হারাবে?</span>
+                    <div class="faq-icon">
+                        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                    </div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        না! আপনার ডেটা ক্লাউডে সেভ থাকে। নতুন ফোনে একই ইমেইল দিয়ে লগইন করলেই সব ডেটা ফিরে পাবেন।
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ Footer ═══════════════════ -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-brand">
+                    <div class="footer-brand-icon">
+                        <svg viewBox="0 0 24 24" fill="white"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                    </div>
+                    বাকি খাতা
+                </div>
+                <p class="footer-description">
+                    বাংলাদেশের সবচেয়ে সহজ এবং নির্ভরযোগ্য দোকানের ডিজিটাল হিসাব রাখার অ্যাপ। হাজারো দোকানদার আমাদের বিশ্বাস করেন।
+                </p>
+                <div class="footer-socials">
+                    <a href="#" class="social-btn" aria-label="Facebook" data-social="facebook">
+                        <svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95C18.05 21.45 22 17.19 22 12z"/></svg>
+                    </a>
+                    <a href="#" class="social-btn" aria-label="WhatsApp" data-social="whatsapp">
+                        <svg viewBox="0 0 24 24"><path d="M12.031 2c-5.514 0-9.992 4.478-9.992 9.992 0 1.766.464 3.432 1.29 4.918L2 22l5.235-1.373c1.437.787 3.056 1.235 4.796 1.235 5.514 0 9.992-4.478 9.992-9.992S17.545 2 12.031 2z"/></svg>
+                    </a>
+                    <a href="#" class="social-btn" aria-label="YouTube" data-social="youtube">
+                        <svg viewBox="0 0 24 24"><path d="M23.5 6.2c-.3-1.1-1.1-1.9-2.2-2.2C19.3 3.5 12 3.5 12 3.5s-7.3 0-9.3.5c-1.1.3-1.9 1.1-2.2 2.2C0 8.2 0 12 0 12s0 3.8.5 5.8c.3 1.1 1.1 1.9 2.2 2.2 2 .5 9.3.5 9.3.5s7.3 0 9.3-.5c1.1-.3 1.9-1.1 2.2-2.2.5-2 .5-5.8.5-5.8s0-3.8-.5-5.8zM9.5 15.5v-7l6.5 3.5-6.5 3.5z"/></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h4>প্রোডাক্ট</h4>
+                <ul class="footer-links">
+                    <li><a href="#features">ফিচার</a></li>
+                    <li><a href="#screenshots">স্ক্রিনশট</a></li>
+                    <li><a href="#download">ডাউনলোড</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>সহায়তা</h4>
+                <ul class="footer-links">
+                    <li><a href="#" data-contact-email>যোগাযোগ</a></li>
+                    <li><a href="#">সাহায্য</a></li>
+                    <li><a href="#">প্রাইভেসি পলিসি</a></li>
+                    <li><a href="#">শর্তাবলি</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>যোগাযোগ</h4>
+                <ul class="footer-links">
+                    <li><a href="mailto:support@bakikhata.com" id="footerEmail">support@bakikhata.com</a></li>
+                    <li><a href="tel:+8801700000000" id="footerPhone">+৮৮০ ১৭০০০০০০০০</a></li>
+                    <li><a href="#" id="footerAddress">ঢাকা, বাংলাদেশ</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© ২০২৫ বাকি খাতা। সর্বস্বত্ব সংরক্ষিত। ❤️ দিয়ে তৈরি</p>
+        </div>
+    </div>
+</footer>
+
+<!-- ═══════════════════ Download Modal ═══════════════════ -->
+<div class="modal-overlay" id="downloadModal" onclick="if(event.target===this) closeDownloadModal()">
+    <div class="modal-box">
+        <div class="modal-icon">
+            <svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+        </div>
+        
+        <h3>বাকি খাতা APK ডাউনলোড</h3>
+        <p>আপনার ফোনে ইনস্টল করতে নিচের বাটনে ক্লিক করুন।</p>
+        
+        <a href="https://drive.google.com/uc?export=download&id=1YPDzGeocjy0iJhe50RWk5QNpEdL-nuVk" 
+           download="BakiKhata.apk"
+           target="_blank"
+           class="modal-download-btn"
+           id="modalDownloadBtn"
+           onclick="trackDownload()">
+            <svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+            APK ডাউনলোড করুন
+        </a>
+        
+        <button class="modal-close-btn" onclick="closeDownloadModal()">বাতিল</button>
+        
+        <div class="modal-note">
+            📱 <strong>ইনস্টল করার আগে:</strong> Settings → Security → "Install from Unknown Sources" চালু করুন।
+            <br><br>
+            ⚠️ <strong>যদি "Virus Scan Warning" দেখায়:</strong> "Download anyway" বাটনে ক্লিক করুন।
+        </div>
+    </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, collection, getDocs, addDoc, serverTimestamp, updateDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyD_8Y7Pa_2CgZapLdwxj9zORg6ekwZ9tgQ",
+        authDomain: "download-2e77b.firebaseapp.com",
+        databaseURL: "https://download-2e77b-default-rtdb.firebaseio.com",
+        projectId: "download-2e77b",
+        storageBucket: "download-2e77b.firebasestorage.app",
+        messagingSenderId: "81390304367",
+        appId: "1:81390304367:web:ceb62c0439182e792fe19a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // ═══════════════════ Toast ═══════════════════
+    function showToast(msg, type = 'success') {
+        const toast = document.getElementById('toast');
+        if (!toast) return;
+        const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+        toast.style.cssText = 'position:fixed;top:24px;left:50%;transform:translateX(-50%) translateY(-100px);background:var(--gradient-success);color:white;padding:14px 24px;border-radius:12px;font-size:15px;font-weight:700;z-index:99999;opacity:0;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;box-shadow:0 12px 32px rgba(0,0,0,0.2);display:flex;align-items:center;gap:10px;max-width:90%;font-family:Hind Siliguri,sans-serif;';
+        if (type === 'error') toast.style.background = 'linear-gradient(135deg, #e11d48, #f43f5e)';
+        if (type === 'warning') toast.style.background = 'linear-gradient(135deg, #d97706, #f59e0b)';
+        toast.innerHTML = `<span style="font-size:20px">${icons[type]}</span><span>${msg}</span>`;
+        setTimeout(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+        }, 10);
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(-50%) translateY(-100px)';
+        }, 3000);
+    }
+    window.showToast = showToast;
+
+    // ═══════════════════ Global Variables ═══════════════════
+    let siteConfig = {};
+    window.APK_DOWNLOAD_LINK = "https://drive.google.com/uc?export=download&id=1YPDzGeocjy0iJhe50RWk5QNpEdL-nuVk";
+
+    // ═══════════════════ Hide Loader ═══════════════════
+    function hideLoader() {
+        const loader = document.getElementById('pageLoader');
+        if (loader) {
+            loader.classList.add('hidden');
+            setTimeout(() => loader.style.display = 'none', 500);
+        }
+    }
+
+    // ═══════════════════ Load Site Config ═══════════════════
+    async function loadSiteConfig() {
+        try {
+            const snap = await getDoc(doc(db, 'site_config', 'main'));
+            if (!snap.exists()) {
+                console.log('No config found, using defaults');
+                return;
+            }
+            
+            siteConfig = snap.data();
+            console.log('✅ Config loaded:', siteConfig);
+            
+            // ═══ Maintenance Mode ═══
+            if (siteConfig.siteStatus === false) {
+                const maintenanceScreen = document.getElementById('maintenanceScreen');
+                const maintenanceMsg = document.getElementById('maintenanceMessage');
+                if (maintenanceMsg && siteConfig.maintenanceMsg) {
+                    maintenanceMsg.textContent = siteConfig.maintenanceMsg;
+                }
+                if (maintenanceScreen) {
+                    maintenanceScreen.classList.add('active');
+                }
+                document.body.style.overflow = 'hidden';
+                return;
+            }
+            
+            // ═══ APK Link ═══
+            if (siteConfig.apkLink) {
+                window.APK_DOWNLOAD_LINK = siteConfig.apkLink;
+                
+                // সব download লিংক আপডেট
+                document.querySelectorAll('a[href*="drive.google.com"], a[href*=".apk"], #mainDownloadBtn, #modalDownloadBtn').forEach(a => {
+                    a.href = siteConfig.apkLink;
+                });
+            }
+            
+            // ═══ Hero Title ═══
+            if (siteConfig.heroTitle) {
+                const h1 = document.getElementById('heroTitle');
+                if (h1) {
+                    const words = siteConfig.heroTitle.split(' ');
+                    if (words.length >= 3) {
+                        const lastTwo = words.slice(-2).join(' ');
+                        const rest = words.slice(0, -2).join(' ');
+                        h1.innerHTML = `${rest}<br><span class="highlight">${lastTwo}</span>`;
+                    } else {
+                        h1.innerHTML = `<span class="highlight">${siteConfig.heroTitle}</span>`;
+                    }
+                }
+            }
+            
+            // ═══ Hero Subtitle ═══
+            if (siteConfig.heroSubtitle) {
+                const p = document.getElementById('heroSubtitle');
+                if (p) p.textContent = siteConfig.heroSubtitle;
+            }
+            
+            // ═══ Statistics ═══
+            if (siteConfig.stat1Value) {
+                const el = document.getElementById('stat1Value');
+                if (el) el.textContent = siteConfig.stat1Value;
+            }
+            if (siteConfig.stat2Value) {
+                const el = document.getElementById('stat2Value');
+                if (el) el.textContent = siteConfig.stat2Value;
+            }
+            if (siteConfig.stat3Value) {
+                const el = document.getElementById('stat3Value');
+                if (el) el.textContent = siteConfig.stat3Value;
+            }
+            
+            // ═══ Contact Info ═══
+            if (siteConfig.contactEmail) {
+                const emailEl = document.getElementById('footerEmail');
+                if (emailEl) {
+                    emailEl.href = `mailto:${siteConfig.contactEmail}`;
+                    emailEl.textContent = siteConfig.contactEmail;
+                }
+                document.querySelectorAll('[data-contact-email]').forEach(a => a.href = `mailto:${siteConfig.contactEmail}`);
+            }
+            
+            if (siteConfig.contactPhone) {
+                const phoneEl = document.getElementById('footerPhone');
+                if (phoneEl) {
+                    phoneEl.href = `tel:${siteConfig.contactPhone}`;
+                    phoneEl.textContent = siteConfig.contactPhone;
+                }
+            }
+            
+            if (siteConfig.contactAddress) {
+                const addressEl = document.getElementById('footerAddress');
+                if (addressEl) addressEl.textContent = siteConfig.contactAddress;
+            }
+            
+            // ═══ Social Links ═══
+            if (siteConfig.socialFacebook) {
+                document.querySelectorAll('[data-social="facebook"]').forEach(a => a.href = siteConfig.socialFacebook);
+            }
+            if (siteConfig.socialWhatsapp) {
+                document.querySelectorAll('[data-social="whatsapp"]').forEach(a => a.href = siteConfig.socialWhatsapp);
+            }
+            if (siteConfig.socialYoutube) {
+                document.querySelectorAll('[data-social="youtube"]').forEach(a => a.href = siteConfig.socialYoutube);
+            }
+            
+            // ═══ Global Notice ═══
+            if (siteConfig.noticeActive && siteConfig.globalNotice) {
+                showGlobalNotice(siteConfig.globalNotice);
+            }
+            
+        } catch (e) {
+            console.log('❌ Config load error:', e);
+        }
+    }
+
+    // ═══════════════════ Global Notice ═══════════════════
+    function showGlobalNotice(message) {
+        const oldNotice = document.getElementById('globalNoticeBanner');
+        if (oldNotice) oldNotice.remove();
+        
+        const notice = document.createElement('div');
+        notice.id = 'globalNoticeBanner';
+        notice.className = 'global-notice';
+        notice.innerHTML = `
+            <span>📢 ${message}</span>
+            <button class="global-notice-close" onclick="this.parentElement.remove()">×</button>
+        `;
+        document.body.appendChild(notice);
+    }
+
+    // ═══════════════════ Load Features ═══════════════════
+    async function loadFeatures() {
+        try {
+            const snap = await getDocs(collection(db, 'site_features'));
+            if (snap.empty) {
+                console.log('No custom features, keeping defaults');
+                return;
+            }
+            
+            const features = snap.docs.map(d => d.data());
+            const grid = document.getElementById('featuresGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = features.map(f => `
+                <div class="feature-card fade-up visible">
+                    <div class="feature-icon">${f.icon || '✨'}</div>
+                    <h3>${f.title}</h3>
+                    <p>${f.description}</p>
+                </div>
+            `).join('');
+            
+            console.log(`✅ ${features.length} features loaded`);
+        } catch (e) {
+            console.log('Features load error:', e);
+        }
+    }
+
+    // ═══════════════════ Load Testimonials ═══════════════════
+    async function loadTestimonials() {
+        try {
+            const snap = await getDocs(collection(db, 'site_testimonials'));
+            if (snap.empty) {
+                console.log('No custom testimonials, keeping defaults');
+                return;
+            }
+            
+            const testimonials = snap.docs.map(d => d.data());
+            const grid = document.getElementById('testimonialsGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = testimonials.map(t => `
+                <div class="testimonial-card fade-up visible">
+                    <div class="testimonial-stars">
+                        ${'<svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>'.repeat(t.rating || 5)}
+                    </div>
+                    <p class="testimonial-text">"${t.text}"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">${(t.name || 'ন').charAt(0)}</div>
+                        <div>
+                            <h4>${t.name}</h4>
+                            <p>${t.shopName || ''}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            console.log(`✅ ${testimonials.length} testimonials loaded`);
+        } catch (e) {
+            console.log('Testimonials load error:', e);
+        }
+    }
+
+    // ═══════════════════ Load FAQ ═══════════════════
+    async function loadFaqData() {
+        try {
+            const snap = await getDocs(collection(db, 'site_faq'));
+            if (snap.empty) {
+                console.log('No custom FAQ, keeping defaults');
+                return;
+            }
+            
+            const faqs = snap.docs.map(d => d.data());
+            const list = document.getElementById('faqList');
+            if (!list) return;
+            
+            list.innerHTML = faqs.map(f => `
+                <div class="faq-item fade-up visible">
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>${f.question}</span>
+                        <div class="faq-icon">
+                            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                        </div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">${f.answer}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            console.log(`✅ ${faqs.length} FAQ loaded`);
+        } catch (e) {
+            console.log('FAQ load error:', e);
+        }
+    }
+
+    // ═══════════════════ Track Download ═══════════════════
+    let downloadTracked = false;
+    window.trackDownload = async () => {
+        if (downloadTracked) return; // একবারই track করবে
+        downloadTracked = true;
+        
+        try {
+            // ডাউনলোড কাউন্ট বাড়ান
+            const configRef = doc(db, 'site_config', 'main');
+            const snap = await getDoc(configRef);
+            
+            if (snap.exists()) {
+                const currentCount = snap.data().downloadCount || 0;
+                await updateDoc(configRef, {
+                    downloadCount: currentCount + 1
+                });
+                console.log('✅ Download tracked. New count:', currentCount + 1);
+            }
+            
+            // ডাউনলোড লগ
+            await addDoc(collection(db, 'download_logs'), {
+                timestamp: serverTimestamp(),
+                userAgent: navigator.userAgent.substring(0, 200),
+                platform: /Android/.test(navigator.userAgent) ? 'Android' : /iPhone|iPad/.test(navigator.userAgent) ? 'iOS' : 'Desktop',
+                referrer: document.referrer || 'direct'
+            });
+            
+        } catch (e) {
+            console.log('Download tracking error:', e);
+        }
+    };
+
+    // ═══════════════════ Download Modal ═══════════════════
+    window.showDownloadModal = () => {
+        const modal = document.getElementById('downloadModal');
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    };
+    
+    window.closeDownloadModal = () => {
+        const modal = document.getElementById('downloadModal');
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    };
+
+    // ═══════════════════ FAQ Toggle ═══════════════════
+    window.toggleFaq = (el) => {
+        const item = el.parentElement;
+        const isActive = item.classList.contains('active');
+        
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        
+        if (!isActive) {
+            item.classList.add('active');
+        }
+    };
+
+    // ═══════════════════ Navbar Scroll ═══════════════════
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+    
+    // ═══════════════════ Mobile Menu ═══════════════════
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+    
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    }
+    
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (navLinks) navLinks.classList.remove('active');
+        });
+    });
+    
+    // ═══════════════════ Scroll Animations ═══════════════════
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    
+    // ═══════════════════ Smooth Scroll ═══════════════════
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                const offset = 80;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // ═══════════════════ Init ═══════════════════
+    document.addEventListener('DOMContentLoaded', async () => {
+        console.log('🚀 Baki Khata Landing Page Loading...');
+        
+        // Set timeout for loader safety
+        const loaderTimeout = setTimeout(() => {
+            hideLoader();
+        }, 5000);
+        
+        try {
+            await loadSiteConfig();
+            await loadFeatures();
+            await loadTestimonials();
+            await loadFaqData();
+        } catch (e) {
+            console.log('Init error:', e);
+        } finally {
+            clearTimeout(loaderTimeout);
+            setTimeout(hideLoader, 300);
+        }
+        
+        console.log('%c🎉 বাকি খাতা', 'font-size: 32px; font-weight: bold; color: #0d9488;');
+        console.log('%cআপনার দোকানের ডিজিটাল হিসাব', 'font-size: 14px; color: #64748b;');
+    });
+
+    // ═══════════════════ Online/Offline ═══════════════════
+    window.addEventListener('online', () => {
+        showToast('✅ অনলাইন', 'success');
+    });
+    
+    window.addEventListener('offline', () => {
+        showToast('⚠️ ইন্টারনেট সংযোগ নেই', 'warning');
+    });
+</script>
+
+</body>
+</html>
